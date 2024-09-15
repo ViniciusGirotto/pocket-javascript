@@ -7,8 +7,8 @@ export function App() {
   return (
     <Dialog>
       {/* <EmptyGoals /> */}
-      <CreateGoal />
       <Summary />
+      <CreateGoal />
     </Dialog>
   )
 }
