@@ -9,21 +9,20 @@ async function seed() {
   const result = await db
     .insert(goals)
     .values([
-      { title: 'Learn to code', desiredWeeklyFrequency: 5 },
-      { title: 'Exercise', desiredWeeklyFrequency: 3 },
-      { title: 'Read', desiredWeeklyFrequency: 7 },
+      { title: 'Acordar cedo', desiredWeeklyFrequency: 5 },
+      { title: 'Me exercitar', desiredWeeklyFrequency: 3 },
+      { title: 'Meditar', desiredWeeklyFrequency: 1 },
     ])
     .returning()
 
   const startOfWeek = dayjs().startOf('week')
-  await db
-    .insert(goalCompletions)
-    .values([
-      { goalId: result[0].id, completedAt: startOfWeek.add(1, 'day').toDate() },
-      { goalId: result[1].id, completedAt: startOfWeek.toDate() },
-      { goalId: result[2].id, completedAt: startOfWeek.add(2, 'day').toDate() },
-    ])
-    .execute()
+
+  await db.insert(goalCompletions).values([
+    { goalId: result[0].id, completedAt: startOfWeek.toDate() },
+    { goalId: result[1].id, completedAt: startOfWeek.add(1, 'day').toDate() },
+  ])
 }
 
-seed().finally(() => client.end())
+seed().finally(() => {
+  client.end()
+})
